@@ -11,40 +11,19 @@
  * };
  */
 class Solution {
-    public:
-        bool isSymmetric(TreeNode* root) {
-    
-            vector<int> tree_left;
-            vector<int> tree_right;
-            preorder(root->left, tree_left, 1);
-            preorder(root->right, tree_right, 0);
-    
-            if (tree_left.size() != tree_right.size())
-    
-                return false;
-            for (int i = 0; i < tree_left.size(); i++) {
-                if (tree_right[i] != tree_left[i])
-                    return false;
-            }
-    
+public:
+    bool isSymmetric(TreeNode* root) {
+        if (!root)
             return true;
-        }
-    
-        void preorder(TreeNode* root, vector<int>& tree, bool leftFirst) {
-            if (root == nullptr)
-                {   
-                    tree.push_back(-102);
-                    return;
-                }
-            
-            tree.push_back(root->val);
-    
-            if (leftFirst) {
-                preorder(root->left, tree, 1);
-                preorder(root->right, tree, 1);
-            } else {
-                preorder(root->right, tree, 0);
-                preorder(root->left, tree, 0);
-            }
-        }
-    };
+        return isMirror(root->left, root->right);
+    }
+
+    bool isMirror(TreeNode* t1, TreeNode* t2) {
+        if (!t1 && !t2)
+            return true;
+        if (!t1 || !t2)
+            return false;
+        return (t1->val == t2->val) && isMirror(t1->left, t2->right) &&
+               isMirror(t1->right, t2->left);
+    }
+};
