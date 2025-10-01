@@ -1,56 +1,55 @@
-class Trie {
+class TrieNode {
+public:
+    TrieNode* children[26];
+    bool isLeaf;
 
-    private:
-        Trie* children[26];
-        bool isEndOfWord;
-    public:
-        Trie() {
-            isEndOfWord=false;
-            for (int i=0;i<26;i++)
-            {
-                children[i]=nullptr;
-            }
+    TrieNode() {
+        isLeaf = false;
+        for (int i = 0; i < 26; i++) {
+            children[i] = nullptr;
         }
-        
-        void insert(string word) {
-            Trie* node=this;
-            for (char c: word)
-            {
-                int index=c-'a';
-                if(!node->children[index])
-                    node->children[index]=new Trie();
-                node=node->children[index];
-            }
-            node->isEndOfWord=true;
+    }
+};
+
+class Trie {
+    TrieNode* root;
+
+public:
+    Trie() { root = new TrieNode(); }
+
+    void insert(string word) {
+        TrieNode* curr = root;
+        for (char c : word) {
+            int index = c - 'a';
+            if (curr->children[index] == nullptr)
+                curr->children[index] = new TrieNode();
+            curr = curr->children[index];
         }
-        
-        bool search(string word) {
-            Trie* node=this;
-            for (char c:word)
-            {
-                int index=c-'a';
-                if(!node->children[index])
-                   return false;
-                node=node->children[index];
-            }
-    
-            return node->isEndOfWord; // true
-            
+        curr->isLeaf = true;
+    }
+
+    bool search(string word) {
+        TrieNode* curr = root;
+        for (char c : word) {
+            int index = c - 'a';
+            if (curr->children[index] == nullptr)
+                return false;
+            curr = curr->children[index];
         }
-        
-        bool startsWith(string prefix) {
-             Trie* node=this;
-            for (char c:prefix)
-            {
-                int index=c-'a';
-                if(!node->children[index])
-                   return false;
-                node=node->children[index];
-            }
-    
-            return true; // true
+        return curr->isLeaf;
+    }
+
+    bool startsWith(string prefix) {
+        TrieNode* curr = root;
+        for (char c : prefix) {
+            int index = c - 'a';
+            if (curr->children[index] == nullptr)
+                return false;
+            curr = curr->children[index];
         }
-    };
+        return true; 
+    }
+};
     
     /**
      * Your Trie object will be instantiated and called as such:
