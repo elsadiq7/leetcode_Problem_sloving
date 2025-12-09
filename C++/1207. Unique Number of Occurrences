@@ -1,0 +1,17 @@
+class Solution {
+public:
+    bool uniqueOccurrences(vector<int>& arr) {
+        unordered_map<int,int>hash_arr;
+        unordered_set<int> set_coun_occurance;
+        for(int i=0;i<arr.size();i++)
+        {
+            hash_arr[arr[i]]++;
+        }
+        for(auto[key,value]:hash_arr)
+        {  
+
+         set_coun_occurance.insert(value);
+        }
+        return hash_arr.size()==set_coun_occurance.size();
+    }
+};
